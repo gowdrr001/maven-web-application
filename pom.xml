@@ -95,15 +95,18 @@
 	
   <distributionManagement>
 
-    <repository>
-      <id>nexus</id>
-      <url>http://192.168.60.136:8081/repository/myproject-release/</url>
-    </repository>
+            <repository>
+              <id>nexus</id>
+              <name>Myproject Releases Nexus Repository</name>
+              <url>http://192.168.60.130:8081/repository/myprojec-releases/</url>
+            </repository>
 
-    <snapshotRepository>
-      <id>nexus</id>
-      <url>http://192.168.60.136:8081/repository/myproject-snapshot/</url>
-    </snapshotRepository>
+            <snapshotRepository>
+              <id>nexus</id>
+              <name>Myproject Snapshot Nexus Repository </name>
+              <url>http://192.168.60.130:8081/repository/myproject-snapshot/</url>
+            </snapshotRepository>
+
 
   </distributionManagement>
 
