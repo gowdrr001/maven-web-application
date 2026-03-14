@@ -105,7 +105,7 @@
 
 <header>
     <h1>Welcome to Mithun Technologies</h1>
-    <p>📞 Phone Number: +91 9980923216 000000000000000000000000000000000000000000000000000000000000000</p>
+    <p>📞 Phone Number: +91 9980923216</p>
     <p>A Best Training Center for AWS DevOps, Jenkins, Docker, Kubernetes, GitOps, ArgoCD, Terraform & AWS</p>
     <p><b>Trainer:</b> Bhaskar Reddy Lacchannagari</p>
 </header>
