@@ -1,56 +1,22 @@
-pipeline {
-    agent any
-
-    tools {
-        maven 'maven3'
+node {
+    def mavenHome = tool name: "maven3.8.5"
+    stage("Checkout") {
+        git credentialsId: 'github', url: 'https://github.com/gowdrr001/maven-web-application.git'
     }
-
-    environment {
-        MVN_HOME = tool 'maven3'
+    stage("Build") {
+        sh "${mavenHome}/bin/mvn clean package"
     }
-
-    stages {
-
-        stage('Init') {
-            steps {
-                echo "The node name is: ${env.NODE_NAME}"
-                echo "The build number is: ${env.BUILD_NUMBER}"
-            }
-        }
-
-        stage('Checkout Code') {
-            steps {
-                git url: 'https://github.com/rrgowd/maven-web-application.git'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh "${MVN_HOME}/bin/mvn clean package"
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "${MVN_HOME}/bin/mvn sonar:sonar"
-                }
-            }
-        }
-
-        stage('Deploy to Nexus') {
-            steps {
-                sh "${MVN_HOME}/bin/mvn deploy"
-            }
-        }
+    // sorany qube genration
+    stage("sonarQube Report") {
+        sh "${mavenHome}/bin/mvn sonar:sonar"
     }
-
-    post {
-        success {
-            echo '✅ Build, SonarQube analysis, and Nexus deploy completed successfully'
+    // upload  qube genration
+    stage("nexus upload") {
+        sh "${mavenHome}/bin/mvn deploy"
+    }    
+    stage("Deploy Apache") {
+        sshagent(['node3_ssh_key']) {
+            sh "scp -o StrictHostKeyChecking=no ${WORKSPACE}/target/maven-web-application.war node3@192.168.60.131:/home/node3/softwares/apache-tomcat-9.0.115/webapps/"
         }
-        failure {
-            echo '❌ Pipeline failed'
-        }
-    }
+    }    
 }
